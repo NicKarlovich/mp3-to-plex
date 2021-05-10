@@ -18,9 +18,9 @@ import eyed3
 #album = "None"
 
 SONG_TITLE_HELPER = True
-ALPHABET = csv.get_contents_of_file("H:/Desktop/SongFixes/alphabet.csv")
-LIST_OF_REMOVE_KEYWORDS = csv.get_contents_of_file('H:/Desktop/SongFixes/tags.csv')
-BAD_FILE_ELEMENTS = csv.get_contents_of_file('H:/Desktop/SongFixes/error_keys.csv')
+ALPHABET = csv.get_contents_of_file("C:/Users/nick4/Desktop/SongFixes/alphabet.csv")
+LIST_OF_REMOVE_KEYWORDS = csv.get_contents_of_file('C:/Users/nick4/Desktop/SongFixes/tags.csv')
+BAD_FILE_ELEMENTS = csv.get_contents_of_file('C:/Users/nick4/Desktop/SongFixes/error_keys.csv')
 
 root, albums, songs = next(os.walk(data_folder)) #os.walk returns 3 lists, root, dirs and files
 
@@ -282,6 +282,11 @@ def format_songs(song_folder, specific_album, album, artist, title):
     if not specific_album:
         album = "None"
     #print(songs)
+    #print(os.listdir(song_folder))
+    songs = os.listdir(song_folder)
+    if len(songs) == 0:
+        print("There are no songs to edit")
+        return
     for song in os.listdir(song_folder):
         file_to_open = song_folder / song
         #Check that it is a .mp3
@@ -314,18 +319,20 @@ def format_songs(song_folder, specific_album, album, artist, title):
         if not valid_audio_file(file_to_open):
             continue
         audio = MP3File(str(file_to_open))
+        print(str(file_to_open))
         # audio = assign_audio_tags(audio, file_to_open, album, title, artist, guess_number)
         assign_audio_tags(audio, file_to_open, album, title, artist, guess_number)
 
         save_to_folder = create_album_folder(artist, album, output_folder)
         create_new_file(artist, title, file_to_open, save_to_folder, guess_number)
-        
+
+
 
 format_albums(data_folder, "None", "None", "None")
 format_songs(data_folder, False, "None", "None", "None")
 
-guess = ""
+guess = "H"
 while(guess != "y" and guess != "n"):
-    guess = input("Add track numbers to All Songs Albums? (y/n)")
+    guess = input("Add track numbers to all Albums? (y/n)")
 if guess == "y":
     atn.add_track_numbers_to_all_songs(output_folder)
