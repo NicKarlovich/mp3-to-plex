@@ -5,20 +5,20 @@ from pathlib import Path
 from mp3_tagger import *
 #from mutagen.easyid3 import ID3
 
-def add_track_numbers_to_all_songs(data_folder):
+def add_track_numbers_to_all_songs(data_folder, backtrack):
     #data_folder = Path("H:/Plex/Media/Music1/")
     print(data_folder)
     need_to_update = []
 
     for artist in os.listdir(data_folder):
-        if not os.path.isdir(artist):
+        if not os.path.isdir(data_folder / artist):
             continue
         else:
             for album in os.listdir(data_folder / artist):
                 albums_searched = "All Songs"
                 if album.find(albums_searched) > -1:
                     try: 
-                        # Add 0 to beginning of every track.
+                        # Add x to beginning of every track.
                         x = 0
                         for song in os.listdir(data_folder / artist / album):
                             if song.endswith('.mp3'):
@@ -36,8 +36,19 @@ def add_track_numbers_to_all_songs(data_folder):
                                     audio.track = str(x)
                                     audio.save()
                                     os.rename(file_to_open,new_file)
+                                else:
+                                    if backtrack:
+                                        file_to_open = data_folder / artist / album / song
+                                        dot_idx = song.find(".")
+                                        digit = song[:dot_idx]
+                                        audio = MP3File(str(file_to_open))
+                                        audio.set_version(VERSION_1)
+                                        audio.track = str(digit)
+                                        audio.save()
+
                     #except is likely to trigger when album.index() fails    
                     except:
+                        '''
                         if album.endswith('.mp3'):
                             for song in os.listdir(data_folder / artist / album):
                                 if song.endswith('.mp3') and not song[:1].isdigit():
@@ -45,6 +56,7 @@ def add_track_numbers_to_all_songs(data_folder):
                                     need_to_update.append((album + " / " + song))
                         else:
                             print("found non-album probably the cover.png")
+                        '''
                 else:
                     if not(album == "cover.png" or album == "cover.jpg"): #ignore the case where it finds a cover.png item, we dont' care that we 'skipped' it
                         print(str(album) + " is not an `" + albums_searched + "` album, so it was skipped")
