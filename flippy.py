@@ -155,24 +155,25 @@ def format_albums(album_folder, output_folder):
 	root, albums, songs = next(os.walk(album_folder))
 	for album_iter in albums:
 		folder = album_folder / album_iter
-		guess = ""
-		output = album_iter
-		while(guess != "y"):
-			print(output)
-			guess = input("Does this album follow the correct standards?\nStandard album organization is `{Artist name} - {Album Name}`, no dashes in artist or album name\n(y/n): ")
-			success, artist, album = parse_album(output)
-			if(guess == "y" and success):
-				print("ALBUM: `" + str(album) + "`")
-				album_guess = input("Is this the album you expect?(y/n): ")
-				print("ARTIST: `" + str(artist) + "`")
-				artist_guess = input("Is this the artist you expect?(y/n): ")
-				if (album_guess == "y" and artist_guess == "y"):
-					guess = "y" #redundant but kept for clarity
+		if os.path.isdir(folder):
+			guess = ""
+			output = album_iter
+			while(guess != "y"):
+				print(output)
+				guess = input("Does this album follow the correct standards?\nStandard album organization is `{Artist name} - {Album Name}`, no dashes in artist or album name\n(y/n): ")
+				success, artist, album = parse_album(output)
+				if(guess == "y" and success):
+					print("ALBUM: `" + str(album) + "`")
+					album_guess = input("Is this the album you expect?(y/n): ")
+					print("ARTIST: `" + str(artist) + "`")
+					artist_guess = input("Is this the artist you expect?(y/n): ")
+					if (album_guess == "y" and artist_guess == "y"):
+						guess = "y" #redundant but kept for clarity
+					else:
+						guess = "n"
+						output = input("Please rename the folder with the correct standards:")
 				else:
-					guess = "n"
 					output = input("Please rename the folder with the correct standards:")
-			else:
-				output = input("Please rename the folder with the correct standards:")
 
 	#goes into each album with previous knowledge and begins building songs
 	for album_iter in albums:
