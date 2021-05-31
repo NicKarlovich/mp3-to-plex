@@ -174,11 +174,9 @@ def format_albums(album_folder, output_folder):
 						output = input("Please rename the folder with the correct standards:")
 				else:
 					output = input("Please rename the folder with the correct standards:")
-
-	#goes into each album with previous knowledge and begins building songs
-	for album_iter in albums:
 		folder = album_folder / album_iter
 		format_songs(folder, output_folder, True, album, artist)
+	#goes into each album with previous knowledge and begins building songs
 
 	#once we're all done, delete all old album directories
 	for album_iter in albums:
@@ -190,7 +188,7 @@ def format_songs(song_folder, output_folder, specific_album, album, artist):
 	previous_artist = None
 	songs = os.listdir(song_folder)
 	if len(songs) == 0:
-		print("There are no songs to edit")
+		print("There are no songs in this folder to edit")
 		return
 	for song in os.listdir(song_folder):
 		file_to_open = song_folder / song
@@ -213,6 +211,7 @@ def format_songs(song_folder, output_folder, specific_album, album, artist):
 			if not(guess_artist == artist):
 				print("Artist of album doesn't match guessed artist of track")
 				print("Beginning individual artist check")
+				#TODO this doesn't actually do anything
 			else:
 				# skipping artist check
 				print("")

@@ -10,7 +10,7 @@ if TESTING:
     output_folder = Path("C:/Users/nick4/Desktop/SongFixes/test-dir/output/")
 else:
     data_folder = Path("H:/Plex/TestSongs/")
-    output_folder = Path("H:/Plex/Media/Music - Copy/")
+    output_folder = Path("H:/Plex/Media/Music/")
 # run some code
 
 print("lets do it")
@@ -24,7 +24,7 @@ flip.format_songs(data_folder, output_folder, False, None, None)
 #add track numbers to All Songs Albums
 # program will not be adding numbers to albums with custom names
 g = input("Would you like backreference to ensure that track numbers are added to all songs, this will take some time (y/n): ")
-while (g != "y" or g !="n"):
+while (g != "y" and g !="n"):
     print("please enter y or n")
     g = input("Would you like backreference to ensure that track numbers are added to all songs, this will take some time (y/n): ")
 if g == "y":

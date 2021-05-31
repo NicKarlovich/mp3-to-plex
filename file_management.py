@@ -42,20 +42,19 @@ def create_new_file(artist ,title, file_to_open, save_to_folder, number=-1):
 
 
 def assign_audio_tags(audio, album, title, artist, number=-1):
-    audio.set_version(VERSION_1)
-    audio.album = album
-    audio.song = title
-    audio.artist = artist
-    audio.year = "" #clear year entry, leftover data from MediaHuman we don't want.
-    audio.set_version(VERSION_2)
-    audio.song = title #apply title to both versions to ensure it actually "sets"
-    audio.band = artist
-    del audio.comment
-    del audio.genre
-    audio.set_version(VERSION_1)
-    if number != -1:
-        audio.track = str(number)
-    else:
-        del audio.track
-    print("num" + str(number) + ": inside: " + str(audio.track))
-    audio.save()
+	audio.set_version(VERSION_1)
+	audio.album = album
+	audio.song = title
+	audio.artist = artist
+	audio.year = "" #clear year entry, leftover data from MediaHuman we don't want.
+	audio.set_version(VERSION_2)
+	audio.song = title #apply title to both versions to ensure it actually "sets"
+	audio.band = artist
+	audio.comment = "" #previous deleted, but that might've done some weird things to file
+	audio.genre = ""
+	audio.set_version(VERSION_1)
+	if number != -1:
+		audio.track = str(number)
+	else:
+		del audio.track
+	audio.save()

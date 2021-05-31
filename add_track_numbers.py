@@ -23,7 +23,7 @@ def add_track_numbers_to_all_songs(data_folder, backtrack):
                         for song in os.listdir(data_folder / artist / album):
                             if song.endswith('.mp3'):
                                 x += 1
-                                print(song)
+                                #print(song)
                                 #If the first character is not a number ie it doesn't have something assigned to it.
                                 if not song[:1].isdigit():
                                     song_text = str(x) + ". " + song
